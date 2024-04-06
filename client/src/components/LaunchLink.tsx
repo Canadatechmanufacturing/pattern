@@ -1,26 +1,23 @@
-import React, { useEffect } from 'react';
-import {
-  usePlaidLink,
-  PlaidLinkOnSuccessMetadata,
-  PlaidLinkOnExitMetadata,
-  PlaidLinkError,
-  PlaidLinkOptionsWithLinkToken,
-  PlaidLinkOnEventMetadata,
-  PlaidLinkStableEvent,
-} from 'react-plaid-link';
-import { useHistory } from 'react-router-dom';
-
-import { logEvent, logSuccess, logExit } from '../util'; // functions to log and save errors and metadata from Link events.
-import { exchangeToken, setItemState } from '../services/api';
-import { useItems, useLink, useErrors } from '../services';
-
-interface Props {
+curl -X POST https://sandbox.plaid.com/link/token/create \
+-H 'Content-Type: application/json' \
+-d '{
+  "client_id": "65e3a8d15df626001bc2984e",
+  "secret": "c2ac6f723e774e92ff592ed1d727ba",
+  "client_name": "My App",
+  "user": { "client_user_id": "${UNIQUE_USER_ID}" },
+  "country_codes": ["US"],
+  "language": "en",
+  "webhook": "https://webhook.sample.com",
+  "access_token": "${ACCESS_TOKEN}",
+  "link_customization_name": "account_selection_v2_customization",
+  "redirect_uri": "https://www.sample.com/redirect.html",
+  "update": { "account_selection_enabled": true }
   isOauth?: boolean;
   token: string;
   userId: number;
   itemId?: number | null;
   children?: React.ReactNode;
-}
+"jsonify
 
 // Uses the usePlaidLink hook to manage the Plaid Link creation.  See https://github.com/plaid/react-plaid-link for full usage instructions.
 // The link token passed to usePlaidLink cannot be null.  It must be generated outside of this component.  In this sample app, the link token
